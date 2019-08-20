@@ -1,0 +1,1 @@
+{"daemonize":false,"log":"\/var\/tmp\/phd\/log\/daemons.log","piddir":"\/var\/tmp\/phd\/pid","daemons":[{"class":"PhabricatorRepositoryPullLocalDaemon","label":"pull"},{"class":"PhabricatorTriggerDaemon","label":"trigger"},{"class":"PhabricatorFactDaemon","label":"fact"},{"class":"PhabricatorTaskmasterDaemon","label":"task","pool":4,"reserve":0}]}
