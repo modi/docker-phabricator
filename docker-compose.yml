@@ -4,7 +4,9 @@ networks:
     external: false
 volumes:
   mysql_data:
-  storage:
+  repos:
+  files:
+  phd:
   conf:
 services:
   mysql:
@@ -16,23 +18,44 @@ services:
       - mysql_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-  php:
-    image: "mdxdm/phabricator:${PHAB_VER}"
+  fpm:
+    build:
+      context: ./fpm
     networks:
       - project
     volumes:
-      - storage:/storage
+      - repos:/data/repos
+      - files:/data/files
+      - phd:/run/phd
       - conf:/code/phabricator/conf/local
     environment:
       PHAB_HOST: ${PHAB_HOST}
+  sshd:
+    build:
+      context: ./sshd
+    networks:
+      - project
+    volumes:
+      - repos:/data/repos
+      - files:/data/files
+      - phd:/run/phd
+      - conf:/code/phabricator/conf/local
+  phd:
+    build:
+      context: ./phd
+    networks: 
+      - project
+    volumes:
+      - repos:/data/repos
+      - files:/data/files
+      - phd:/run/phd
+      - conf:/code/phabricator/conf/local
   nginx:
     depends_on:
-      - php
+      - fpm
     image: nginx:1.14.2-alpine
     networks:
-      project:
-        aliases:
-          - ${PHAB_HOST}
+      - project
     volumes:
       - ./conf/nginx/vhosts.conf:/etc/nginx/conf.d/default.conf
   front:
@@ -44,6 +67,6 @@ services:
     volumes:
       - ./conf/envoy/envoy.yml:/etc/envoy/envoy.yaml
   noty:
-    image: "mdxdm/phabricator-aphlict:${PHAB_VER}"
+    image: modicn/phabricator:noty
     networks:
       - project

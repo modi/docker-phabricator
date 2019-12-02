@@ -1,0 +1,25 @@
+{
+    "daemonize": false,
+    "log": "\/proc\/self\/fd\/1",
+    "piddir": "\/run\/phd",
+    "daemons": [
+        {
+            "class": "PhabricatorRepositoryPullLocalDaemon",
+            "label": "pull"
+        },
+        {
+            "class": "PhabricatorTriggerDaemon",
+            "label": "trigger"
+        },
+        {
+            "class": "PhabricatorFactDaemon",
+            "label": "fact"
+        },
+        {
+            "class": "PhabricatorTaskmasterDaemon",
+            "label": "task",
+            "pool": 4,
+            "reserve": 0
+        }
+    ]
+}

@@ -17,10 +17,5 @@
       "ssl.chain": null
     }
   ],
-  "logs": [
-    {
-      "path": "/proc/self/fd/1"
-    }
-  ],
   "pidfile": "/run/aphlict.pid"
 }

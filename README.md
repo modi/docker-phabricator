@@ -77,3 +77,8 @@ $ echo {} | ssh vcs@phab.example.com conduit conduit.ping
 {"result":"8522c60e44c2","error_code":null,"error_info":null}
 ```
 
+# TODO
+
+- 欢迎大家帮我测试
+- 编写按版本构建镜像的工具脚本
+- 添加 svn 仓库的托管

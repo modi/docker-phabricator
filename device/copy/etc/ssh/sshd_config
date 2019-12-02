@@ -22,7 +22,7 @@ AuthorizedKeysFile none
 
 PidFile /run/sshd-phabricator.pid
 
-HostKey /storage/secrets/sshd/ssh_host_rsa_key
-HostKey /storage/secrets/sshd/ssh_host_dsa_key
-HostKey /storage/secrets/sshd/ssh_host_ecdsa_key
-HostKey /storage/secrets/sshd/ssh_host_ed25519_key
+HostKey /data/secrets/sshd/ssh_host_rsa_key
+HostKey /data/secrets/sshd/ssh_host_dsa_key
+HostKey /data/secrets/sshd/ssh_host_ecdsa_key
+HostKey /data/secrets/sshd/ssh_host_ed25519_key

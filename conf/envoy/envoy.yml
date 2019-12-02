@@ -78,7 +78,7 @@ static_resources:
     connect_timeout: 1s
     hosts:
     - socket_address:
-        address: php
+        address: sshd
         port_value: 22
 admin:
   access_log_path: "/dev/null"

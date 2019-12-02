@@ -2,9 +2,9 @@
 
 set -e
 
-KEYS_LOCK="/storage/SSH-HOST-KEYS-LOCK"
+KEYS_LOCK="/data/SSH-HOST-KEYS-LOCK"
 if [[ ! -e $KEYS_LOCK ]]; then
-    KEYS_DIR="/storage/secrets/sshd"
+    KEYS_DIR="/data/secrets/sshd"
 
     if [[ ! -d $KEYS_DIR ]]; then
         mkdir -p $KEYS_DIR 

@@ -14,10 +14,10 @@ cd /code/phabricator
 
 ./bin/config set phd.user phab
 ./bin/config set diffusion.ssh-user vcs
-./bin/config set repository.default-local-path '/storage/repos/'
+./bin/config set repository.default-local-path '/data/repos/'
 
 ./bin/config set storage.mysql-engine.max-size 0
-./bin/config set storage.local-disk.path '/storage/file/'
+./bin/config set storage.local-disk.path '/data/files/'
 
 ./bin/config set pygments.enabled true
 
