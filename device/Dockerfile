@@ -1,5 +1,5 @@
 # Usage:
-# docker build . -t modicn/phabricator:base-fpm && docker push modicn/phabricator:base-fpm
+# docker build . -t modicn/phabricator:device && docker push modicn/phabricator:device
 
 FROM php:7.3-fpm-alpine
 
@@ -34,7 +34,8 @@ RUN set -ex; \
     apk update; \
     apk add --no-cache \
         bash \
-        git;
+        git \
+        py-pygments
 
 # Download Phabricator source code
 RUN set -ex; \
@@ -47,9 +48,3 @@ RUN set -ex; \
 
 # Add directory containing arc to $PATH
 ENV PATH "$PATH:/code/arcanist/bin"
-
-# Install pygments
-RUN set -ex; \
-    apk update; \
-    apk add --no-cache \
-        py-pygments;

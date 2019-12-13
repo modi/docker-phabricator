@@ -4,8 +4,8 @@ Phabricator 的安装较繁琐。
 
 本项目搭建了以下服务：
 
-- Web 界面
-- Git 代码仓库托管（SSH 传输）
+- Web 界面，端口 80
+- Git 代码仓库托管（SSH 传输），端口 2222
 - 后台工作队列
 
 适用于体验、评估 Phabricator。
@@ -53,7 +53,9 @@ Phabricator 的安装较繁琐。
 
 ### 怎么找 Envoy 容器的 IP？
 
-使用 `docker inspect` 命令。
+使用 `docker inspect` 命令，如：
+
+    docker inspect phab_envoy_1 | grep IP
 
 ### Mac 上访问不了服务
 
@@ -74,7 +76,7 @@ Mac 上的容器是跑在虚拟机里的，你必须设置端口转发才能访�
 和 GitHub / GitLab 操作类似，通过 Web 界面配置帐号的 SSH 公钥后，可执行下面的命令进行测试：
 
 ```
-$ echo {} | ssh vcs@phab.example.com conduit conduit.ping
+$ echo {} | ssh -p 2222 vcs@phab.example.com conduit conduit.ping
 ```
 
 如果配置正确，响应类似：
@@ -88,3 +90,5 @@ $ echo {} | ssh vcs@phab.example.com conduit conduit.ping
 - 区分 Phabricator 版本
 - 添加 svn 仓库的托管
 - 浏览器桌面通知
+- 打包中文语言包
+- 提供设置主机端口转发的配置

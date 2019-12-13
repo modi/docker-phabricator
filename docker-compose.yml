@@ -60,14 +60,14 @@ services:
       - project
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-  front:
+  envoy:
     image: envoyproxy/envoy-alpine:v1.11.0
     networks:
       project:
         aliases:
           - ${PHAB_HOST}
     volumes:
-      - ./front/envoy.yml:/etc/envoy/envoy.yaml
+      - ./envoy/envoy.yml:/etc/envoy/envoy.yaml
   noty:
     image: modicn/phabricator:noty
     networks:

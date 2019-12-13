@@ -13,7 +13,7 @@ if ! TERM=dumb php -- <<'EOPHP'
 
 $stderr = fopen('php://stderr', 'w');
 
-$maxTries = 5;
+$maxTries = 10;
 do {
     $mysql = new mysqli('mysql', 'root', 'root');
     if ($mysql->connect_error) {
@@ -39,6 +39,7 @@ fi
 
 ./bin/config set phd.user phab
 ./bin/config set diffusion.ssh-user vcs
+./bin/config set diffusion.ssh-port 2222
 ./bin/config set repository.default-local-path '/data/repos/'
 
 ./bin/config set storage.mysql-engine.max-size 0

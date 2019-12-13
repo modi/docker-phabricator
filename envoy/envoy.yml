@@ -41,11 +41,11 @@ static_resources:
                       route: {cluster: ws}
             http_filters:
               - name: envoy.router
-  # 监听 22 端口：SSH
+  # 监听 2222 端口：SSH
   - address:
       socket_address:
         address: 0.0.0.0
-        port_value: 22
+        port_value: 2222
     filter_chains:
     - filters:
       - name: envoy.tcp_proxy
@@ -79,7 +79,7 @@ static_resources:
     hosts:
     - socket_address:
         address: sshd
-        port_value: 22
+        port_value: 2222
 admin:
   access_log_path: "/dev/null"
   address:

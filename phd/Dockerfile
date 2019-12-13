@@ -1,7 +1,7 @@
 # Usage:
 # docker build . --build-arg PHAB_UID=${PHAB_UID:-1000} --build-arg PHAB_GID=${PHAB_GID:-1000} -t modicn/phabricator:phd && docker push modicn/phabricator:phd
 
-FROM modicn/phabricator:base-cli
+FROM modicn/phabricator:device
 
 ARG PHAB_UID=1000
 ARG PHAB_GID=1000
@@ -30,6 +30,8 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 WORKDIR /code/phabricator
 
+ENTRYPOINT ["/bin/sh", "-c"]
+
 USER phab
 
-CMD ["/bin/sh", "-c", "/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phd-config.json"]
+CMD ["/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phd-config.json"]
