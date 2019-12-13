@@ -1,5 +1,5 @@
 # Usage:
-# docker build . -t modicn/phabricator:php-fpm && docker push modicn/phabricator:php-fpm
+# docker build . -t modicn/phabricator:base-fpm && docker push modicn/phabricator:base-fpm
 
 FROM php:7.3-fpm-alpine
 

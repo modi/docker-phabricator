@@ -1,10 +1,9 @@
 # Usage:
-# docker build . -t modicn/phabricator:php-cli && docker push modicn/phabricator:php-cli
+# docker build . -t modicn/phabricator:base-cli && docker push modicn/phabricator:base-cli
 
 FROM php:7.3-cli-alpine
 
 # Install extensions: opcache, pcntl, mysqli, zip, gd, apcu
-
 ENV PHPIZE_DEPS "$PHPIZE_DEPS libzip-dev freetype-dev libpng-dev libjpeg-turbo-dev"
 
 RUN set -ex; \

@@ -1,12 +1,14 @@
 # Usage:
-# docker build . --build-arg PHAB_UID=${PHAB_UID:-1000} --build-arg PHAB_GID=${PHAB_GID:-1000} -t modicn/phabricator-device:${PHAB_VER:-stable} && docker push modicn/phabricator-device:${PHAB_VER:-stable}
+# docker build . --build-arg PHAB_UID=${PHAB_UID:-1000} --build-arg PHAB_GID=${PHAB_GID:-1000} -t modicn/phabricator:sshd && docker push modicn/phabricator:sshd
 
-FROM modicn/phabricator:php-cli
+FROM modicn/phabricator:base-cli
 
 ARG PHAB_UID=1000
 ARG PHAB_GID=1000
 ARG VCS_UID=2000
 ARG VCS_GID=2000
+
+RUN ln -s /usr/local/bin/php /usr/bin/php
 
 # Install system requirements
 RUN set -ex; \

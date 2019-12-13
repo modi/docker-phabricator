@@ -9,6 +9,4 @@ then
   exit 1
 fi
 
-export PATH="$PATH:/usr/local/bin"
-
 exec "$ROOT/bin/ssh-auth" $@

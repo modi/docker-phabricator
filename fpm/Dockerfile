@@ -1,7 +1,7 @@
 # Usage:
-# docker build . --build-arg PHAB_UID=${PHAB_UID:-1000} --build-arg PHAB_GID=${PHAB_GID:-1000} -t modicn/phabricator-web:${PHAB_VER:-stable} && docker push modicn/phabricator-web:${PHAB_VER:-stable}
+# docker build . --build-arg PHAB_UID=${PHAB_UID:-1000} --build-arg PHAB_GID=${PHAB_GID:-1000} -t modicn/phabricator:fpm && docker push modicn/phabricator:fpm
 
-FROM modicn/phabricator:php-fpm
+FROM modicn/phabricator:base-fpm
 
 ARG PHAB_UID=1000
 ARG PHAB_GID=1000
