@@ -1,14 +1,11 @@
-# Usage:
 # docker build . --build-arg PHAB_UID=${PHAB_UID:-1000} --build-arg PHAB_GID=${PHAB_GID:-1000} -t modicn/phabricator:sshd && docker push modicn/phabricator:sshd
 
-FROM modicn/phabricator:device
+FROM modicn/phabricator:base-cli
 
 ARG PHAB_UID=1000
 ARG PHAB_GID=1000
 ARG VCS_UID=2000
 ARG VCS_GID=2000
-
-RUN ln -s /usr/local/bin/php /usr/bin/php
 
 # Install system requirements
 RUN set -ex; \
@@ -42,11 +39,6 @@ RUN mkdir -p /data/repos; \
         /code/phabricator/conf/local
 
 COPY ./copy /
-
-# Use PHP.ini settings recommended for production
-RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
-
-WORKDIR /code/phabricator
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 

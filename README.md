@@ -92,3 +92,4 @@ $ echo {} | ssh -p 2222 vcs@phab.example.com conduit conduit.ping
 - 浏览器桌面通知
 - 打包中文语言包
 - 提供设置主机端口转发的配置
+- 把配置，如对外端口改造成环境变量 https://stackoverflow.com/questions/54047568/how-can-i-use-environment-variables-in-the-envoyproxy-config-file

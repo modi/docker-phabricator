@@ -1,7 +1,6 @@
-# Usage:
 # docker build . --build-arg PHAB_UID=${PHAB_UID:-1000} --build-arg PHAB_GID=${PHAB_GID:-1000} -t modicn/phabricator:fpm && docker push modicn/phabricator:fpm
 
-FROM modicn/phabricator:device
+FROM modicn/phabricator:base-fpm
 
 ARG PHAB_UID=1000
 ARG PHAB_GID=1000
@@ -24,10 +23,5 @@ RUN mkdir -p /data/repos; \
         /code/phabricator/conf/local
 
 COPY ./copy /
-
-# Use PHP.ini settings recommended for production
-RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
-
-WORKDIR /code/phabricator
 
 USER phab
