@@ -24,8 +24,6 @@ RUN mkdir -p /data/repos; \
 
 COPY ./copy /
 
-ENTRYPOINT ["/bin/sh", "-c"]
-
 USER phab
 
 CMD ["/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phd-config.json"]
