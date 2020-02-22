@@ -2,7 +2,8 @@
 
 FROM php:7.3-fpm-alpine
 
-# Install bash, git, pygments
+# --- Install bash, git, pygments
+
 RUN set -ex; \
     apk update; \
     apk add --no-cache \
@@ -10,7 +11,8 @@ RUN set -ex; \
         git \
         py-pygments
 
-# Install PHP extensions: apcu, gd, mysqli, opcache, pcntl, zip
+# --- Install PHP extensions: apcu, gd, mysqli, opcache, pcntl, zip
+
 ENV PHPIZE_DEPS "$PHPIZE_DEPS freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev"
 
 RUN set -ex; \
@@ -45,7 +47,10 @@ RUN set -ex; \
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini; \
     ln -s /usr/local/bin/php /usr/bin/php
 
-# Download Phabricator source code
+COPY ./copy /
+
+# --- Download Phabricator source code
+
 RUN set -ex; \
     git clone --depth 1 --branch stable https://github.com/phacility/libphutil.git /code/libphutil; \
     rm -rf /code/libphutil/.git; \

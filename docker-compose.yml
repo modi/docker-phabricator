@@ -27,7 +27,6 @@ services:
       - files:/data/files
       - phd:/run/phd
       - conf:/code/phabricator/conf/local
-      - ./zz-phabricator.ini:/usr/local/etc/php/conf.d/zz-phabricator.ini
     environment:
       PHAB_HOST: ${PHAB_HOST}
   sshd:
@@ -39,7 +38,6 @@ services:
       - files:/data/files
       - phd:/run/phd
       - conf:/code/phabricator/conf/local
-      - ./zz-phabricator.ini:/usr/local/etc/php/conf.d/zz-phabricator.ini
   phd:
     image: modicn/phabricator:phd
     networks: 
@@ -49,7 +47,6 @@ services:
       - files:/data/files
       - phd:/run/phd
       - conf:/code/phabricator/conf/local
-      - ./zz-phabricator.ini:/usr/local/etc/php/conf.d/zz-phabricator.ini
   nginx:
     depends_on:
       - fpm

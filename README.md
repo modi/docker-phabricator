@@ -61,10 +61,6 @@ Phabricator 的安装较繁琐。
 
 Mac 上的容器是跑在虚拟机里的，你必须设置端口转发才能访问服务。
 
-### 为什么收不到桌面浏览器通知？
-
-主流浏览器的安全设置禁用了非 HTTPS 的 WebSocket 连接，你可以修改 Envoy 的配置，增加 SSL 反向代理来解决。
-
 ### 不想配置邮件发送，怎么给 Phabricator 帐号找回密码？
 
 执行下面的命令，可得到一个设置密码的临时链接：
@@ -89,7 +85,7 @@ $ echo {} | ssh -p 2222 vcs@phab.example.com conduit conduit.ping
 
 - 区分 Phabricator 版本
 - 添加 svn 仓库的托管
-- 浏览器桌面通知
+- 浏览器桌面通知（WSS）
 - 打包中文语言包
 - 提供设置主机端口转发的配置
 - 把配置，如对外端口改造成环境变量 https://stackoverflow.com/questions/54047568/how-can-i-use-environment-variables-in-the-envoyproxy-config-file

@@ -26,4 +26,4 @@ COPY ./copy /
 
 USER phab
 
-CMD ["/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phd-config.json"]
+CMD ["sh", "-c", "/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phd-config.json"]
