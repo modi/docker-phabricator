@@ -1,6 +1,6 @@
 # docker build . -t modicn/phabricator:base-fpm && docker push modicn/phabricator:base-fpm
 
-FROM php:7.3-fpm-alpine
+FROM php:7.3.23-fpm-alpine3.12
 
 # --- Install bash, git, pygments
 
@@ -26,7 +26,7 @@ RUN set -ex; \
         # zip
         libzip \
     ; \
-    docker-php-ext-configure gd --with-freetype-dir --with-png-dir --with-jpeg-dir; \
+    docker-php-ext-configure gd --with-freetype-dir --with-jpeg-dir --with-png-dir; \
     docker-php-ext-install gd; \
     docker-php-ext-configure zip --with-libzip; \
     docker-php-ext-install zip; \
@@ -47,17 +47,6 @@ RUN set -ex; \
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini; \
     ln -s /usr/local/bin/php /usr/bin/php
 
+COPY --from=modicn/phabricator:2020.37-code /code/ /code/
 COPY ./copy /
 
-# --- Download Phabricator source code
-
-RUN set -ex; \
-    git clone --depth 1 --branch stable https://github.com/phacility/libphutil.git /code/libphutil; \
-    rm -rf /code/libphutil/.git; \
-    git clone --depth 1 --branch stable https://github.com/phacility/phabricator.git /code/phabricator; \
-    rm -rf /code/phabricator/.git; \
-    git clone --depth 1 --branch stable https://github.com/phacility/arcanist.git /code/arcanist; \
-    rm -rf /code/arcanist/.git; \
-    ln -s /code/arcanist/bin/arc /usr/local/bin/arc
-
-WORKDIR /code/phabricator

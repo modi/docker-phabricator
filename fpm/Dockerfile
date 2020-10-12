@@ -25,3 +25,6 @@ RUN mkdir -p /data/repos; \
 COPY ./copy /
 
 USER phab
+
+WORKDIR /code/phabricator
+

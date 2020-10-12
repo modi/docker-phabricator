@@ -1,4 +1,3 @@
-# Usage:
 # docker build . -t modicn/phabricator:noty && docker push modicn/phabricator:noty
 
 FROM node:8-alpine
