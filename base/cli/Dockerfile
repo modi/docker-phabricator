@@ -5,4 +5,3 @@ FROM modicn/phabricator:base-fpm
 COPY ./copy /
 
 CMD ["/bin/sh"]
-

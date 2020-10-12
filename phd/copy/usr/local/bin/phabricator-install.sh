@@ -35,11 +35,11 @@ fi
 
 ./bin/storage upgrade --force
 
-./bin/config set phabricator.base-uri "http://${PHAB_HOST}/"
+./bin/config set phabricator.base-uri "http://${PHAB_HOST}:${PHAB_WEB_PORT}/"
 
 ./bin/config set phd.user phab
 ./bin/config set diffusion.ssh-user vcs
-./bin/config set diffusion.ssh-port 2222
+./bin/config set diffusion.ssh-port ${PHAB_SSH_PORT}
 ./bin/config set repository.default-local-path '/data/repos/'
 
 ./bin/config set storage.mysql-engine.max-size 0

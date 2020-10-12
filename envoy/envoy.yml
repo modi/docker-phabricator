@@ -4,7 +4,7 @@ static_resources:
   - address:
       socket_address:
         address: 0.0.0.0
-        port_value: 80
+        port_value: 8006
     filter_chains:
     - filters:
       - name: envoy.http_connection_manager
@@ -46,7 +46,7 @@ static_resources:
   - address:
       socket_address:
         address: 0.0.0.0
-        port_value: 2222
+        port_value: 2206
     filter_chains:
     - filters:
       - name: envoy.tcp_proxy
@@ -85,5 +85,5 @@ admin:
   access_log_path: "/dev/null"
   address:
     socket_address:
-      address: 127.0.0.1
-      port_value: 8787
+      address: 0.0.0.0
+      port_value: 9901

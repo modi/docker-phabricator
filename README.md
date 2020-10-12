@@ -1,4 +1,22 @@
-# Phabricator Docker 环境
+# 基于 Docker 运行 Phabricator
+
+简单三步即可体验、评估 Phabricator：
+
+- 克隆本仓库
+//- 创建 .env，如果对 Docker 不太了解，直接复制 .env.example 内容
+- 运行 docker-compose run --rm phd phabricator-install.sh
+- docker-compose up -d
+- 找到入口（反向代理）容器的 IP，如果你想直接绑定到本机ip，参考后文
+
+欢迎[吐槽](https://github.com/modi/docker-phabricator/issues)。我是擎天柱，呼叫其他流浪的
+
+我为什么要维护这个项目，你为什么要感兴趣？
+
+- Phabricator 是代码质量比较高的项目，出自 Facebook 的工具部门，现独立，Facebook 和 Wikipeda、mozilla 都是用户，与 GitLab 的量级无法比较
+- 本人在使用，会持续维护
+- 和 X Y 不同，本项目的基础镜像是 alpine，下载尺寸较小
+- 独立性原则，生产环境部署参考价值高，探索集群
+- 我想通过开源来拓展个人的技术圈子，期望与你交流 Phabricator 的使用、开发，软件开发协作，工程效率等
 
 Phabricator 的安装较繁琐。
 

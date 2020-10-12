@@ -10,7 +10,7 @@ volumes:
   conf:
 services:
   mysql:
-    image: mysql:5.7.24
+    image: mysql:5.7
     networks:
       - project
     volumes:
@@ -27,8 +27,6 @@ services:
       - files:/data/files
       - phd:/run/phd
       - conf:/code/phabricator/conf/local
-    environment:
-      PHAB_HOST: ${PHAB_HOST}
   sshd:
     image: modicn/phabricator:sshd
     networks:
@@ -39,6 +37,8 @@ services:
       - phd:/run/phd
       - conf:/code/phabricator/conf/local
   phd:
+    depends_on:
+      - mysql
     image: modicn/phabricator:phd
     networks: 
       - project
@@ -47,6 +47,10 @@ services:
       - files:/data/files
       - phd:/run/phd
       - conf:/code/phabricator/conf/local
+    environment:
+      PHAB_HOST: ${PHAB_HOST}
+      PHAB_WEB_PORT: ${PHAB_WEB_PORT}
+      PHAB_SSH_PORT: ${PHAB_SSH_PORT}
   nginx:
     depends_on:
       - fpm
@@ -60,10 +64,14 @@ services:
     networks:
       - project
   envoy:
-    image: envoyproxy/envoy-alpine:v1.12.2
+    image: envoyproxy/envoy-alpine:v1.12-latest
     networks:
       project:
         aliases:
           - ${PHAB_HOST}
     volumes:
       - ./envoy/envoy.yml:/etc/envoy/envoy.yaml
+    ports:
+      - ${PHAB_WEB_PORT}:8006
+      - ${PHAB_SSH_PORT}:2206
+      - ${PHAB_WS_PORT}:22280

@@ -27,4 +27,3 @@ COPY ./copy /
 USER phab
 
 WORKDIR /code/phabricator
-
