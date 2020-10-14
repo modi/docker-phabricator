@@ -48,3 +48,18 @@ fi
 ./bin/config set pygments.enabled true
 
 ./bin/config set security.outbound-blacklist '[]'
+
+printf '[
+    {
+        "type": "client",
+        "host": "%s",
+        "port": 22280,
+        "protocol": "http"
+    },
+    {
+        "type": "admin",
+        "host": "noty",
+        "port": 22281,
+        "protocol": "http"
+    }
+]' "$PHAB_HOST" | ./bin/config set notification.servers --stdin

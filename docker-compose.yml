@@ -4,9 +4,7 @@ networks:
     external: false
 volumes:
   mysql_data:
-  repos:
-  files:
-  phd:
+  data:
   conf:
 services:
   mysql:
@@ -19,38 +17,37 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
   fpm:
-    image: modicn/phabricator:fpm
-    networks:
-      - project
-    volumes:
-      - repos:/data/repos
-      - files:/data/files
-      - phd:/run/phd
-      - conf:/code/phabricator/conf/local
-  sshd:
-    image: modicn/phabricator:sshd
-    networks:
-      - project
-    volumes:
-      - repos:/data/repos
-      - files:/data/files
-      - phd:/run/phd
-      - conf:/code/phabricator/conf/local
-  phd:
     depends_on:
       - mysql
-    image: modicn/phabricator:phd
-    networks: 
+    build:
+      context: ./fpm
+    user: phab
+    networks:
       - project
     volumes:
-      - repos:/data/repos
-      - files:/data/files
-      - phd:/run/phd
-      - conf:/code/phabricator/conf/local
+      - data:/data/
+      - conf:/code/phabricator/conf/local/
     environment:
       PHAB_HOST: ${PHAB_HOST}
       PHAB_WEB_PORT: ${PHAB_WEB_PORT}
       PHAB_SSH_PORT: ${PHAB_SSH_PORT}
+  sshd:
+    build:
+      context: ./sshd
+    networks:
+      - project
+    volumes:
+      - data:/data/
+      - conf:/code/phabricator/conf/local/
+  phd:
+    build:
+      context: ./phd
+    user: phab
+    networks: 
+      - project
+    volumes:
+      - data:/data/
+      - conf:/code/phabricator/conf/local/
   nginx:
     depends_on:
       - fpm
@@ -72,6 +69,6 @@ services:
     volumes:
       - ./envoy/envoy.yml:/etc/envoy/envoy.yaml
     ports:
-      - ${PHAB_WEB_PORT}:8006
-      - ${PHAB_SSH_PORT}:2206
+      - ${PHAB_WEB_PORT}:8801
+      - ${PHAB_SSH_PORT}:2201
       - ${PHAB_WS_PORT}:22280
