@@ -1,0 +1,14 @@
+version: '2'
+services:
+  envoy:
+    image: envoyproxy/envoy-alpine:v1.12-latest
+    networks:
+      project:
+        aliases:
+          - ${PHAB_HOST}
+    volumes:
+      - ./envoy/envoy.yml:/etc/envoy/envoy.yaml
+    ports:
+      - ${PHAB_WEB_PORT}:8801
+      - ${PHAB_SSH_PORT}:2201
+      - ${PHAB_WS_PORT}:22280

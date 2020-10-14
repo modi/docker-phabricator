@@ -1,0 +1,16 @@
+version: '2'
+volumes:
+  mysql_data:
+services:
+  mysql:
+    image: mysql:5.7
+    networks:
+      - project
+    volumes:
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/zz.cnf
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  fpm:
+    depends_on:
+      - mysql

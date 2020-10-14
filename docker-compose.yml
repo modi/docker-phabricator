@@ -3,22 +3,10 @@ networks:
   project:
     external: false
 volumes:
-  mysql_data:
   data:
   conf:
 services:
-  mysql:
-    image: mysql:5.7
-    networks:
-      - project
-    volumes:
-      - ./mysql/mysql.cnf:/etc/mysql/conf.d/zz.cnf
-      - mysql_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
   fpm:
-    depends_on:
-      - mysql
     build:
       context: ./fpm
     user: phab
@@ -60,15 +48,3 @@ services:
     image: modicn/phabricator:noty
     networks:
       - project
-  envoy:
-    image: envoyproxy/envoy-alpine:v1.12-latest
-    networks:
-      project:
-        aliases:
-          - ${PHAB_HOST}
-    volumes:
-      - ./envoy/envoy.yml:/etc/envoy/envoy.yaml
-    ports:
-      - ${PHAB_WEB_PORT}:8801
-      - ${PHAB_SSH_PORT}:2201
-      - ${PHAB_WS_PORT}:22280
