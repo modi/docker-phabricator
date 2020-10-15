@@ -11,19 +11,22 @@ cd /code/phabricator
 if ! TERM=dumb php -- <<'EOPHP'
 <?php
 
+error_reporting(E_ERROR);
+
 $stderr = fopen('php://stderr', 'w');
+fwrite($stderr, 'Connecting to MySQL...'."\n");
 
 $maxTries = 10;
 do {
     $mysql = new mysqli('mysql', 'root', 'root');
     if ($mysql->connect_error) {
-        fwrite($stderr, "\n" . 'MySQL connection error: (' . $mysql->connect_errno . ') ' . $mysql->connect_error . "\n");
+        fwrite($stderr, 'Retry in 5s...'."\n");
         --$maxTries;
         if ($maxTries <= 0) {
-            fwrite($stderr, "\n" . 'MySQL connection failed'."\n");
+            fwrite($stderr, 'MySQL connection failed'."\n");
             exit(1);
         }
-        sleep(3);
+        sleep(5);
     }
 } while ($mysql->connect_error);
 

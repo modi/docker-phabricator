@@ -48,9 +48,4 @@ RUN set -ex; \
 
 RUN ln -s /usr/local/bin/php /usr/bin/php
 
-RUN mkdir -p \
-        /data/repos \
-        /data/files \
-        /data/phd
-
 COPY ./copy /

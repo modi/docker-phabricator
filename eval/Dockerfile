@@ -41,8 +41,24 @@ RUN set -ex; \
     passwd -u vcs; \
     echo 'vcs ALL=(phab) SETENV: NOPASSWD: /usr/bin/git, /usr/bin/git-upload-pack, /usr/bin/git-receive-pack' >> /etc/sudoers
 
-RUN chown -R ${PHAB_UID}:${PHAB_GID} \
-        /data/* \
-        /code/phabricator/conf/local
+RUN set -ex; \ 
+    mkdir -p \
+        /data/conf \
+        /data/repos \
+        /data/files \
+        /data/phd \
+        /data/sshd
+    ; \
+    echo '{}' > /data/conf/local.json; \
+    ln -s /data/conf/local.json /code/phabricator/conf/local/local.json; \
+    chown -R ${PHAB_UID}:${PHAB_GID} \
+        /data/conf \
+        /data/repos \
+        /data/files \
+        /data/phd \
+        /code/phabricator/conf/local \
+    ; \
+    chown -R ${VCS_UID}:${VCS_GID} \
+        /data/sshd
 
 WORKDIR /code/phabricator

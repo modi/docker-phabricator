@@ -4,17 +4,14 @@ networks:
     external: false
 volumes:
   data:
-  conf:
 services:
   fpm:
     build:
       context: ./fpm
-    user: phab
     networks:
       - project
     volumes:
       - data:/data/
-      - conf:/code/phabricator/conf/local/
     environment:
       PHAB_HOST: ${PHAB_HOST}
       PHAB_WEB_PORT: ${PHAB_WEB_PORT}
@@ -26,16 +23,13 @@ services:
       - project
     volumes:
       - data:/data/
-      - conf:/code/phabricator/conf/local/
   phd:
     build:
       context: ./phd
-    user: phab
     networks: 
       - project
     volumes:
       - data:/data/
-      - conf:/code/phabricator/conf/local/
   nginx:
     depends_on:
       - fpm
