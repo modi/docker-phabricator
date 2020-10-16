@@ -2,6 +2,8 @@
 
 FROM node:8-alpine
 
+ARG COMMIT_HASH=5e06d924f8eba5df354c690ceb693e454e965d16
+
 RUN set -ex; \
     apk update; \
     apk add --no-cache \
@@ -15,14 +17,13 @@ RUN set -ex; \
 ENV NODE_PATH /usr/local/lib/node_modules
 
 RUN set -ex; \
-    apk update; \
-    apk add --no-cache git; \
-    git clone --depth 1 --branch stable https://github.com/phacility/phabricator.git /tmp/phabricator; \
-    apk del git; \
+    mkdir /tmp/download; \
+    wget -O /tmp/download/phabricator.zip -q https://github.com/phacility/phabricator/archive/${COMMIT_HASH}.zip; \
+    unzip -d /tmp/download -q /tmp/download/phabricator.zip; \
     mkdir -p /code/support; \
-    cp -r /tmp/phabricator/support/aphlict /code/support/; \
-    cp -r /tmp/phabricator/webroot /code/; \
-    rm -rf /tmp/phabricator
+    cp -r /tmp/download/phabricator-${COMMIT_HASH}/support/aphlict /code/support/; \
+    cp -r /tmp/download/phabricator-${COMMIT_HASH}/webroot /code/; \
+    rm -rf /tmp/download
 
 COPY ./copy /
 
