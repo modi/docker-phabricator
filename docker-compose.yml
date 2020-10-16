@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 networks:
   project:
     external: false
@@ -26,7 +26,7 @@ services:
   phd:
     build:
       context: ./phd
-    networks: 
+    networks:
       - project
     volumes:
       - data:/data/
