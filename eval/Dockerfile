@@ -46,8 +46,7 @@ RUN set -ex; \
         /data/conf \
         /data/repos \
         /data/files \
-        /data/phd \
-        /data/sshd
+        /data/sshd \
     ; \
     echo '{}' > /data/conf/local.json; \
     ln -s /data/conf/local.json /code/phabricator/conf/local/local.json; \
@@ -55,10 +54,10 @@ RUN set -ex; \
         /data/conf \
         /data/repos \
         /data/files \
-        /data/phd \
-        /code/phabricator/conf/local \
     ; \
     chown -R ${VCS_UID}:${VCS_GID} \
         /data/sshd
+
+VOLUME /data
 
 WORKDIR /code/phabricator

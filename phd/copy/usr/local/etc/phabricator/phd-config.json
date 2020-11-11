@@ -1,7 +1,6 @@
 {
     "daemonize": false,
     "log": "\/proc\/self\/fd\/1",
-    "piddir": "\/data\/phd",
     "daemons": [
         {
             "class": "PhabricatorRepositoryPullLocalDaemon",

@@ -2,7 +2,7 @@
 
 FROM php:7.3.23-fpm-alpine3.12
 
-# --- Install bash, git, pygments
+# --- Install system packages
 
 RUN set -ex; \
     apk update; \
@@ -10,8 +10,11 @@ RUN set -ex; \
         bash \
         git \
         openssh-server \
+        procps \
         py-pygments \
-        sudo
+        sudo \
+    ; \
+    rm -rf /var/cache/apk/*
 
 # --- Install PHP extensions: apcu, gd, mysqli, opcache, pcntl, zip
 
@@ -44,7 +47,8 @@ RUN set -ex; \
         apcu \
     ; \
     rm -rf /tmp/pear; \
-    apk del $PHPIZE_DEPS
+    apk del $PHPIZE_DEPS; \
+    rm -rf /var/cache/apk/*
 
 RUN ln -s /usr/local/bin/php /usr/bin/php
 
