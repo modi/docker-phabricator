@@ -1,0 +1,56 @@
+version: "2"
+networks:
+  project:
+    external: false
+volumes:
+  data:
+services:
+  fpm:
+    build:
+      context: ./dev
+    user: phab
+    networks:
+      - project
+    volumes:
+      - data:/data/
+      - ../code:/code/
+    environment:
+      PHAB_HOST: ${PHAB_HOST}
+      PHAB_WEB_PORT: ${PHAB_WEB_PORT}
+      PHAB_SSH_PORT: ${PHAB_SSH_PORT}
+  sshd:
+    build:
+      context: ./dev
+    entrypoint: ["entrypoint-sshd.sh"]
+    command: ["/usr/sbin/sshd", "-D", "-e"]
+    user: vcs
+    networks:
+      - project
+    volumes:
+      - data:/data/
+      - ../code:/code/
+  phd:
+    # https://github.com/phacility/phabricator/blob/stable/src/infrastructure/daemon/PhutilDaemonOverseer.php
+    build:
+      context: ./dev
+    entrypoint: ["entrypoint-phd.sh"]
+    command: ["sh", "-c", "/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phabricator/phd-config.json"]
+    stop_signal: SIGINT
+    user: phab
+    networks:
+      - project
+    volumes:
+      - data:/data/
+      - ../code:/code/
+  noty:
+    image: modicn/phabricator:noty
+    networks:
+      - project
+  nginx:
+    depends_on:
+      - fpm
+    image: nginx:1.16-alpine
+    networks:
+      - project
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
