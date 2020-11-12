@@ -2,7 +2,7 @@
 
 FROM node:8-alpine
 
-ARG COMMIT_HASH=5e06d924f8eba5df354c690ceb693e454e965d16
+ARG PHABRICATOR_COMMIT=5e06d924f8eba5df354c690ceb693e454e965d16
 
 RUN set -ex; \
     apk update; \
@@ -21,7 +21,7 @@ ENV NODE_PATH /usr/local/lib/node_modules
 
 RUN set -ex; \
     mkdir /tmp/download; \
-    wget -O /tmp/download/phabricator.zip -q https://github.com/phacility/phabricator/archive/${COMMIT_HASH}.zip; \
+    wget -O /tmp/download/phabricator.zip -q https://github.com/phacility/phabricator/archive/${PHABRICATOR_COMMIT}.zip; \
     unzip -d /tmp/download -q /tmp/download/phabricator.zip; \
     mkdir -p /code/support; \
     cp -r /tmp/download/phabricator-${COMMIT_HASH}/support/aphlict /code/support/; \

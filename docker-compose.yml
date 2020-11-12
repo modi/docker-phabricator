@@ -6,8 +6,8 @@ volumes:
   data:
 services:
   fpm:
-    build:
-      context: ./fpm
+    image: modicn/phabricator:eval
+    user: phab
     networks:
       - project
     volumes:
@@ -17,19 +17,29 @@ services:
       PHAB_WEB_PORT: ${PHAB_WEB_PORT}
       PHAB_SSH_PORT: ${PHAB_SSH_PORT}
   sshd:
-    build:
-      context: ./sshd
+    image: modicn/phabricator:eval
+    entrypoint: ["entrypoint-sshd.sh"]
+    command: ["/usr/sbin/sshd", "-D", "-e"]
+    user: vcs
     networks:
       - project
     volumes:
       - data:/data/
   phd:
-    build:
-      context: ./phd
+    # https://github.com/phacility/phabricator/blob/stable/src/infrastructure/daemon/PhutilDaemonOverseer.php
+    image: modicn/phabricator:eval
+    entrypoint: ["entrypoint-phd.sh"]
+    command: ["sh", "-c", "/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phabricator/phd-config.json"]
+    stop_signal: SIGINT
+    user: phab
     networks:
       - project
     volumes:
       - data:/data/
+  noty:
+    image: modicn/phabricator:noty
+    networks:
+      - project
   nginx:
     depends_on:
       - fpm
@@ -38,7 +48,3 @@ services:
       - project
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-  noty:
-    image: modicn/phabricator:noty
-    networks:
-      - project

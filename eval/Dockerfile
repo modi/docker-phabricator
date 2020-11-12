@@ -2,28 +2,36 @@
 
 FROM modicn/phabricator:base
 
-RUN set -ex; \
-    mkdir /code /tmp/download; \
-    wget -O /tmp/download/phabricator.zip -q https://github.com/phacility/phabricator/archive/5e06d924f8eba5df354c690ceb693e454e965d16.zip; \
-    unzip -d /code -q /tmp/download/phabricator.zip; \
-    mv /code/phabricator-5e06d924f8eba5df354c690ceb693e454e965d16 /code/phabricator; \
-    wget -O /tmp/download/arcanist.zip -q https://github.com/phacility/arcanist/archive/68dba1a2c6d9fe1de7b9d4c944336458d0f016b3.zip; \
-    unzip -d /code -q /tmp/download/arcanist.zip; \
-    mv /code/arcanist-68dba1a2c6d9fe1de7b9d4c944336458d0f016b3 /code/arcanist; \
-    ln -s /code/arcanist/bin/arc /usr/local/bin/arc; \
-    wget -O /tmp/download/phpexcel.zip -q https://github.com/PHPOffice/PHPExcel/archive/1.8.2.zip; \
-    unzip -d /code -q /tmp/download/phpexcel.zip; \
-    wget -O /code/phabricator/src/extensions/PhabricatorSimplifiedChineseTranslation.php -q "https://github.com/arielyang/phabricator_zh_Hans/raw/master/dist/(stable)%20Promote%202020%20Week%2037/PhabricatorSimplifiedChineseTranslation.php"; \
-    rm -rf /tmp/download
-
-RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
-
-COPY ./copy /
+# https://github.com/phacility/phabricator
+ARG PHABRICATOR_COMMIT=5e06d924f8eba5df354c690ceb693e454e965d16
+# https://github.com/phacility/arcanist
+ARG ARCANIST_COMMIT=68dba1a2c6d9fe1de7b9d4c944336458d0f016b3
+# https://github.com/PHPOffice/PHPExcel
+ARG PHPEXCEL_VER=1.8.2
 
 ARG PHAB_UID=1000
 ARG PHAB_GID=1000
 ARG VCS_UID=2000
 ARG VCS_GID=2000
+
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+
+RUN set -ex; \
+    mkdir /code /tmp/download; \
+    wget -O /tmp/download/phabricator.zip -q https://github.com/phacility/phabricator/archive/${PHABRICATOR_COMMIT}.zip; \
+    unzip -d /code -q /tmp/download/phabricator.zip; \
+    mv /code/phabricator-${PHABRICATOR_COMMIT} /code/phabricator; \
+    wget -O /tmp/download/arcanist.zip -q https://github.com/phacility/arcanist/archive/${ARCANIST_COMMIT}.zip; \
+    unzip -d /code -q /tmp/download/arcanist.zip; \
+    mv /code/arcanist-${ARCANIST_COMMIT} /code/arcanist; \
+    ln -s /code/arcanist/bin/arc /usr/local/bin/arc; \
+    wget -O /tmp/download/phpexcel.zip -q https://github.com/PHPOffice/PHPExcel/archive/${PHPEXCEL_VER}.zip; \
+    unzip -d /code -q /tmp/download/phpexcel.zip; \
+    mv /code/PHPExcel-${PHPEXCEL_VER} /code/phpexcel; \
+    wget -O /code/phabricator/src/extensions/PhabricatorSimplifiedChineseTranslation.php -q "https://github.com/arielyang/phabricator_zh_Hans/raw/master/dist/(stable)%20Promote%202020%20Week%2037/PhabricatorSimplifiedChineseTranslation.php"; \
+    rm -rf /tmp/download
+
+COPY ./copy /
 
 # Set up user `phab` for running PHP-FPM workers and Phabricator phd daemons
 RUN set -ex; \
