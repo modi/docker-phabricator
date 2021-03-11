@@ -5,10 +5,10 @@ services:
     networks:
       project:
         aliases:
-          - ${PHAB_HOST}
+          - p.localhost
     volumes:
       - ./envoy/envoy.yml:/etc/envoy/envoy.yaml
     ports:
-      - ${PHAB_WEB_PORT}:8801
-      - ${PHAB_SSH_PORT}:2201
-      - ${PHAB_WS_PORT}:22280
+      - 8181:8181
+      - 2222:2222
+      - 22280:22280

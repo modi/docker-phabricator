@@ -3,48 +3,38 @@ networks:
   project:
     external: false
 volumes:
+  mysql_data:
   data:
 services:
-  fpm:
-    image: modicn/phabricator:eval
-    user: phab
+  db:
+    image: mysql:5.7
     networks:
       - project
     volumes:
-      - data:/data/
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/zz.cnf
+      - mysql_data:/var/lib/mysql
     environment:
-      PHAB_HOST: ${PHAB_HOST}
-      PHAB_WEB_PORT: ${PHAB_WEB_PORT}
-      PHAB_SSH_PORT: ${PHAB_SSH_PORT}
-  sshd:
-    image: modicn/phabricator:eval
-    entrypoint: ["entrypoint-sshd.sh"]
-    command: ["/usr/sbin/sshd", "-D", "-e"]
-    user: vcs
+      MYSQL_ROOT_PASSWORD: root
+  phabricator:
+    image: modicn/phabricator:supervisord
     networks:
-      - project
+      project:
+        aliases:
+          - p.localhost
     volumes:
       - data:/data/
-  phd:
-    # https://github.com/phacility/phabricator/blob/stable/src/infrastructure/daemon/PhutilDaemonOverseer.php
-    image: modicn/phabricator:eval
-    entrypoint: ["entrypoint-phd.sh"]
-    command: ["sh", "-c", "/code/phabricator/scripts/daemon/phd-daemon < /usr/local/etc/phabricator/phd-config.json"]
-    stop_signal: SIGINT
-    user: phab
-    networks:
-      - project
-    volumes:
-      - data:/data/
-  noty:
-    image: modicn/phabricator:noty
-    networks:
-      - project
-  nginx:
-    depends_on:
-      - fpm
-    image: nginx:1.16-alpine
-    networks:
-      - project
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    command: ["phabricator"]
+    environment:
+      - PHA_BASE_URI=http://p.localhost:8181/
+      - PHA_SSH_PORT=2222
+      - PHA_DB_HOST=db
+      - PHA_DB_USER=root
+      - PHA_DB_PASS=root
+      - PHA_APHLICT_CLIENT_HOST=p.localhost
+      - PHA_APHLICT_CLIENT_PORT=22280
+    extra_hosts:
+      aphlict: 127.0.0.1
+    ports:
+      - 8181:8181
+      - 2222:2222
+      - 22280:22280

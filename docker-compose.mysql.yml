@@ -2,7 +2,7 @@ version: "2"
 volumes:
   mysql_data:
 services:
-  mysql:
+  db:
     image: mysql:5.7
     networks:
       - project
@@ -13,7 +13,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
   fpm:
     depends_on:
-      - mysql
+      - db
   phd:
     depends_on:
-      - mysql
+      - db
