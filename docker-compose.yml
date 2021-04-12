@@ -16,7 +16,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
   phabricator:
-    image: modicn/phabricator:supervisord
+    image: modicn/phabricator:stable-supervisord
     networks:
       project:
         aliases:
